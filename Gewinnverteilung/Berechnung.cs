@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Gewinnverteilung
 {
-    internal class Gewinnverteilung
+    internal class Berechnung
     {
     }
 }
