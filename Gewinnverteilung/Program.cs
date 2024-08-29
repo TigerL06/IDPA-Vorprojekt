@@ -1,2 +1,6 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+using Gewinnverteilung;
+
+BenutzerInteraktion interaktion = new BenutzerInteraktion();
+FinanzDaten daten = new FinanzDaten();
+
+Berechnung verteilung = new Berechnung();
