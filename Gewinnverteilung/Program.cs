@@ -12,4 +12,6 @@ int dividen = interaktion.Dividende();
 
 daten.Daten(gewinn, aktie, partizipal, reserve, vortrag, dividen);
 
-Berechnung verteilung = new Berechnung();
+Berechnung verteilung = new Berechnung(daten);
+
+interaktion.Ausgabe(verteilung);

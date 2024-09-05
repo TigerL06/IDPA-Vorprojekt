@@ -9,11 +9,17 @@ namespace Gewinnverteilung
 {
     public class BenutzerInteraktion
     {
+        int divide = 0;
+        int gewinn = 0;
+        int aktie = 0;
+        int kapital = 0;
+        int reserve = -10;
+        int vortrag = 0;
+        Berechnung _berechnung;
         public BenutzerInteraktion() { }
 
         public int Gewinn()
         {
-            int gewinn = 0;
             string text;
             bool test = true;
             do
@@ -39,7 +45,6 @@ namespace Gewinnverteilung
 
         public int Aktie()
         {
-            int aktie = 0;
             string text;
             bool test = true;
             do
@@ -64,7 +69,6 @@ namespace Gewinnverteilung
 
         public int Partizipal()
         {
-            int kapital = 0;
             string text;
             bool test = true;
             do
@@ -89,7 +93,6 @@ namespace Gewinnverteilung
 
         public int Reserven()
         {
-            int reserve = -10;
             string text;
             bool test = true;
             do
@@ -114,7 +117,6 @@ namespace Gewinnverteilung
 
         public int Vortrag()
         {
-            int vortrag = 0;
             string text;
             bool test = true;
             do
@@ -138,8 +140,7 @@ namespace Gewinnverteilung
         }
 
         public int Dividende()
-        {
-            int divide = 0;
+        { 
             string text;
             bool test = true;
             do
@@ -170,6 +171,32 @@ namespace Gewinnverteilung
                 result = true;
             }
             return result;
+        }
+
+        public void Ausgabe(Berechnung berechnung)
+        {
+            _berechnung = berechnung;
+            if(gewinn < 0)
+            {
+                Console.WriteLine("Es liegt ein Verlust vor. Somit ist kein Beitrag fällig. Es ist nur ein Beitrag bei einem Verlust fällig");
+            }
+            else
+            {
+                int beitrag = _berechnung.BeitragReserven();
+                if (beitrag == -1)
+                {
+                    Console.WriteLine("Die gesetzlichen Reserven sind ausreichend. Kein Beitrag fällig. Die Reserven sind so hoch wie die hälfte des Aktienkapitals und muss so mit nach Art. 672 Abs. 1 OR nicht weiter erhöht werden.");
+                }
+                else if (beitrag == 0)
+                {
+                    Console.WriteLine("Man muss keinen Beitrag einzahlen. Es gibt keinen Gewinn und man muss somit auch nichts einzahlen.");
+                }
+                else 
+                {
+                    Console.WriteLine($"Der Beitrag für dieses Jahr in die gesetzlichen Reserven muss " + beitrag + "hoch sein.");
+                    Console.WriteLine("Das sind nämlich 5% von dem Gewinn und so viel müssen in die gesetzlichen Reserven eingezahlt werden.");
+                }
+            }
         }
     }
 }

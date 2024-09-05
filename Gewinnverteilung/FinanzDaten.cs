@@ -8,12 +8,12 @@ namespace Gewinnverteilung
 {
     public class FinanzDaten
     {
-        int jahresgewinn;
-        int aktien;
-        int partizipialkapital;
-        int gesetzlicheReserven;
-        int vortrag;
-        int dividende;
+        public int jahresgewinn;
+        public int aktien;
+        public int partizipialkapital;
+        public int gesetzlicheReserven;
+        public int vortrag;
+        public int dividende;
         public FinanzDaten() { }
 
         public void Daten(int gewinn, int aktie, int parti, int gesetz, int vort, int div)
