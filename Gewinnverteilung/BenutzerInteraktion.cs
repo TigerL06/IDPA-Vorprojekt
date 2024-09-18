@@ -24,7 +24,7 @@ namespace Gewinnverteilung
             bool test = true;
             do
             {
-                Console.WriteLine("Bitte geben Sie ihren Jahresgewinn ein. Bitte geben Sie nur Zahlen ein.");
+                Console.WriteLine("Bitte geben Sie ihren Jahresgewinn in Franken ein. Bitte geben Sie nur Zahlen ein.");
                 Console.Write("Gewinn: ");
                 text = Console.ReadLine();
                 test = TestInt(text);
@@ -49,7 +49,7 @@ namespace Gewinnverteilung
             bool test = true;
             do
             {
-                Console.WriteLine("Bitte geben Sie ihr Aktienkapital ein. Bitte geben Sie nur Zahlen ein.");
+                Console.WriteLine("Bitte geben Sie ihr Aktienkapital in Franken ein. Bitte geben Sie nur Zahlen ein.");
                 Console.Write("Aktien: ");
                 text = Console.ReadLine();
                 test = TestInt(text);
@@ -73,7 +73,7 @@ namespace Gewinnverteilung
             bool test = true;
             do
             {
-                Console.WriteLine("Bitte geben Sie ihr Partizipationskapital ein. Bitte geben Sie nur Zahlen ein.");
+                Console.WriteLine("Bitte geben Sie ihr Partizipationskapital in Franken ein. Bitte geben Sie nur Zahlen ein.");
                 Console.Write("Partizipationskapital: ");
                 text = Console.ReadLine();
                 test = TestInt(text);
@@ -97,9 +97,16 @@ namespace Gewinnverteilung
             bool test = true;
             do
             {
-                Console.WriteLine("Bitte geben Sie ihr gesetzliche Reserven ein. Bitte geben Sie nur Zahlen ein.");
+                Console.WriteLine("Bitte geben Sie ihr gesetzliche Reserven in Franken ein. Bitte geben Sie nur Zahlen ein.");
                 Console.Write("gesetzliche Reserven: ");
                 text = Console.ReadLine();
+
+                if(Convert.ToInt32(text) < 0)
+                {
+                    Console.WriteLine("Die Reserven können nicht im Minus sein. Geben Sie die Reserven erneut ein.");
+                    test = false;
+                }
+
                 test = TestInt(text);
                 if (test == false)
                 {
@@ -121,13 +128,15 @@ namespace Gewinnverteilung
             bool test = true;
             do
             {
-                Console.WriteLine("Bitte geben Sie ihre Gewinn- oder Verlustvortrag ein. Bei einem Gewinnvortrag können Sie die Zahl ganz normal eingeben. Bei einem Verlustvortrag setzen sie bitte Sie direkt vor die Zahl ein Minus (Bsp. -10). Bitte geben Sie nur Zahlen ein.");
+                Console.WriteLine("Bitte geben Sie ihre Gewinn- oder Verlustvortrag in Franken ein. Bei einem Gewinnvortrag können Sie die Zahl ganz normal eingeben. Bei einem Verlustvortrag setzen sie bitte Sie direkt vor die Zahl ein Minus (Bsp. -10). Bitte geben Sie nur Zahlen ein.");
                 Console.Write("Vortrag: ");
                 text = Console.ReadLine();
                 test = TestInt(text);
                 if (test == false)
                 {
                     Console.WriteLine("Was sie eingegebn haben war keine Zahl, bitte geben Sie eine Zahl ein.");
+                    Console.WriteLine();
+
                     test = false;
                 }
                 else
@@ -145,13 +154,30 @@ namespace Gewinnverteilung
             bool test = true;
             do
             {
-                Console.WriteLine("Bitte geben Sie die gewünschte Dividene ein, die Sie gerne haben wollen. Bitte geben Sie nur Zahlen ein.");
-                Console.Write("gesetzliche Reserven: ");
+                Console.WriteLine("Bitte geben Sie die gewünschte Ausschüttung vom Gewinn in Prozenten ein, die Sie auschütten wollen. Bitte geben Sie nur Zahlen ein(kein Prozentzeichen).");
+                Console.WriteLine();
+
+                Console.Write("Dividende: ");
                 text = Console.ReadLine();
+                if(Convert.ToInt32(test) > 95)
+                {
+                    Console.WriteLine("Sie können nicht mehr 95% des Gewinnes ausschütten, da Sie noch die gesetzlichen Reserven bezahlen müssen");
+                    Console.WriteLine();
+
+                    test = false;
+                }else if(Convert.ToInt32(test) < 0)
+                {
+                    Console.WriteLine("Sie können nicht einen Minus Prozensatz eingeben, da Sie entweder Dividen auszahlen oder nicht.");
+                    Console.WriteLine();
+
+                    test = false;
+                }
                 test = TestInt(text);
                 if (test == false)
                 {
                     Console.WriteLine("Was sie eingegebn haben war keine Zahl, bitte geben Sie eine Zahl ein.");
+                    Console.WriteLine();
+
                     test = false;
                 }
                 else
@@ -173,12 +199,14 @@ namespace Gewinnverteilung
             return result;
         }
 
-        public void Ausgabe(Berechnung berechnung)
+        public void AusgabeReserven(Berechnung berechnung)
         {
             _berechnung = berechnung;
             if(gewinn < 0)
             {
                 Console.WriteLine("Es liegt ein Verlust vor. Somit ist kein Beitrag fällig. Es ist nur ein Beitrag bei einem Verlust fällig");
+                Console.WriteLine();
+
             }
             else
             {
@@ -186,17 +214,90 @@ namespace Gewinnverteilung
                 if (beitrag == -1)
                 {
                     Console.WriteLine("Die gesetzlichen Reserven sind ausreichend. Kein Beitrag fällig. Die Reserven sind so hoch wie die hälfte des Aktienkapitals und muss so mit nach Art. 672 Abs. 1 OR nicht weiter erhöht werden.");
+                    Console.WriteLine();
+
                 }
                 else if (beitrag == 0)
                 {
                     Console.WriteLine("Man muss keinen Beitrag einzahlen. Es gibt keinen Gewinn und man muss somit auch nichts einzahlen.");
+                    Console.WriteLine();
+
                 }
                 else 
                 {
-                    Console.WriteLine($"Der Beitrag für dieses Jahr in die gesetzlichen Reserven muss " + beitrag + "hoch sein.");
-                    Console.WriteLine("Das sind nämlich 5% von dem Gewinn und so viel müssen in die gesetzlichen Reserven eingezahlt werden.");
+                    Console.WriteLine($"Der Beitrag für dieses Jahr in die gesetzlichen Reserven muss " + beitrag + "CHF hoch sein.");
+                    Console.WriteLine();
+                    Console.WriteLine("Das sind 5% von dem Gewinn und so viel müssen in die gesetzlichen Reserven eingezahlt werden, nach Art. 672 OR.");
                 }
             }
+
         }
+
+        public void AusgabeDividen(Berechnung berechnung) 
+        {
+            double dividen = berechnung.BeitragDividende();
+            double divAk = berechnung.BeitragAktie();
+            double divPa = berechnung.BeitragPati();
+
+            Console.WriteLine($"Gesamte Dividenausschüttung: " + dividen +"CHF");
+            Console.WriteLine();
+            Console.WriteLine("Dieser Beitrag zeigt die gesammte Ausschütung von den Dividen, die das Unternehmen auszahlen will dieses Jahr, auf in Franken.");
+            Console.WriteLine();
+            Console.WriteLine($"Dieser Betrag ist, wie angegeben " + divide +"%");
+            Console.WriteLine();
+            Console.WriteLine($"Dividenausschüttung gegenüber Aktionären: " + divAk + "CHF"); 
+            Console.WriteLine();
+            Console.WriteLine("Dieser Beitrag zeigt die Ausschütung der Dividen gegenüber den Aktionären, die das Unternehmen auszahlen will dieses Jahr, auf in Franken.");
+            Console.WriteLine();
+            Console.WriteLine($"Dividenausschüttung gegenüber Partizipationsinhabern: " + divPa + "CHF");
+            Console.WriteLine();
+            Console.WriteLine("Dieser Beitrag zeigt die Ausschütung der Dividen gegenüber den Partizipationsinhaber, die das Unternehmen auszahlen will dieses Jahr, auf in Franken.");
+            Console.WriteLine();
+        }
+
+        public void AusgabeVortrag(Berechnung berechnung)
+        {
+            int _vortrag;
+            _vortrag = berechnung.VortragPos();
+
+            Console.WriteLine($"Das ist der Vortrag für das nächste Jahr: " +_vortrag + "CHF");
+            Console.WriteLine();
+            if(_vortrag > 0)
+            {
+                Console.WriteLine("Das ist der Verlust, der das Unternehmen mit ins nächste Geschäftsjahr, nach allen Abzügen, nehmen muss.");
+            }
+            else
+            {
+                Console.WriteLine("Das ist der Gewinn, der das Unternehmen nach allen Abszügen ins nächste Jahr mitnimmt.");
+            }
+
+        }
+
+        public bool Wiederholung()
+        {
+            bool _antwort;
+            do 
+            {
+                Console.WriteLine("Wollen Sie eine neue Berechnung starten? Antworten sie mit Ja(j) oder Nein(n)");
+                string antwort = Console.ReadLine();
+
+                if (antwort == "j")
+                {
+                    _antwort = true;
+                }
+                else if (antwort == "n")
+                {
+                    _antwort = false;
+                }
+                else
+                {
+                    Console.WriteLine("Geben Sie j(ja) oder (n) nein ein. Bitte keine anderen Eingaben");
+                    _antwort = false;
+                }
+            }while( _antwort == false );
+
+            return _antwort;
+        }
+
     }
 }
