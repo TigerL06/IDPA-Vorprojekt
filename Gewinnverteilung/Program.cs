@@ -22,4 +22,4 @@ do
     interaktion.AusgabeVortrag(verteilung);
     wiederholung = interaktion.Wiederholung();
 
-} while (wiederholung == false);
+} while (wiederholung == true);

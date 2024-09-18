@@ -275,7 +275,7 @@ namespace Gewinnverteilung
 
         public bool Wiederholung()
         {
-            bool _antwort;
+            bool boolAntwort;
             do 
             {
                 Console.WriteLine("Wollen Sie eine neue Berechnung starten? Antworten sie mit Ja(j) oder Nein(n)");
@@ -283,20 +283,20 @@ namespace Gewinnverteilung
 
                 if (antwort == "j")
                 {
-                    _antwort = true;
+                    boolAntwort = true;
                 }
                 else if (antwort == "n")
                 {
-                    _antwort = false;
+                    boolAntwort = false;
                 }
                 else
                 {
                     Console.WriteLine("Geben Sie j(ja) oder (n) nein ein. Bitte keine anderen Eingaben");
-                    _antwort = false;
+                    boolAntwort = false;
                 }
-            }while( _antwort == false );
+            }while( boolAntwort == false );
 
-            return _antwort;
+            return boolAntwort;
         }
 
     }
