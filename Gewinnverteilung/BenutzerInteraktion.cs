@@ -30,9 +30,13 @@ namespace Gewinnverteilung
                 test = TestInt(text);
                 if (test == false)
                 {
-                    Console.WriteLine("Was sie eingegebn haben war keine Zahl, bitte geben Sie eine Zahl ein.");
+                    Console.WriteLine("Was sie eingegeben haben, war keine Zahl, bitte geben Sie eine Zahl ein.");
                     test = false;
 
+                }
+                else if (Convert.ToInt32(text) < 0){
+                    Console.WriteLine("Geben Sie eine positive Zahl ein.");
+                    test = false;
                 }
                 else
                 {
@@ -55,13 +59,19 @@ namespace Gewinnverteilung
                 test = TestInt(text);
                 if (test == false)
                 {
-                    Console.WriteLine("Was sie eingegebn haben war keine Zahl, bitte geben Sie eine Zahl ein.");
+                    Console.WriteLine("Was sie eingegebn haben, war keine Zahl, bitte geben Sie eine Zahl ein.");
                     test = false;
                 }
                 else
                 {
                     aktie = Convert.ToInt32(text);
                     test = true;
+                }
+
+                if (Convert.ToInt32(text) < 0)
+                {
+                    Console.WriteLine("Das Aktienkapital kann nicht im Minus sein. Geben Sie das Aktienkapital erneut ein.");
+                    test = false;
                 }
             } while (test == false);
             return aktie;
@@ -77,15 +87,23 @@ namespace Gewinnverteilung
                 Console.Write("Partizipationskapital: ");
                 text = Console.ReadLine();
                 test = TestInt(text);
+
                 if (test == false)
                 {
-                    Console.WriteLine("Was sie eingegebn haben war keine Zahl, bitte geben Sie eine Zahl ein.");
+                    Console.WriteLine("Was sie eingegebn haben, war keine Zahl, bitte geben Sie eine Zahl ein.");
                     test = false;
                 }
                 else
                 {
                     kapital = Convert.ToInt32(text);
                     test = true;
+                }
+
+
+                if (Convert.ToInt32(text) < 0)
+                {
+                    Console.WriteLine("Das Partizipationskapital kann nicht im Minus sein. Geben Sie das Partizipationskapital erneut ein.");
+                    test = false;
                 }
             } while (test == false);
             return kapital;
@@ -110,7 +128,7 @@ namespace Gewinnverteilung
                 test = TestInt(text);
                 if (test == false)
                 {
-                    Console.WriteLine("Was sie eingegebn haben war keine Zahl, bitte geben Sie eine Zahl ein.");
+                    Console.WriteLine("Was sie eingegeben haben, war keine Zahl, bitte geben Sie eine Zahl ein.");
                     test = false;
                 }
                 else
@@ -134,7 +152,7 @@ namespace Gewinnverteilung
                 test = TestInt(text);
                 if (test == false)
                 {
-                    Console.WriteLine("Was sie eingegebn haben war keine Zahl, bitte geben Sie eine Zahl ein.");
+                    Console.WriteLine("Was sie eingegebn haben, war keine Zahl, bitte geben Sie eine Zahl ein.");
                     Console.WriteLine();
 
                     test = false;
@@ -152,37 +170,50 @@ namespace Gewinnverteilung
         { 
             string text;
             bool test = true;
+            int zahl = 10;
+            bool testF = true;
             do
             {
-                Console.WriteLine("Bitte geben Sie die gewünschte Ausschüttung vom Gewinn in Prozenten ein, die Sie auschütten wollen. Bitte geben Sie nur Zahlen ein(kein Prozentzeichen).");
+
+                testF = true;
+                Console.WriteLine("Bitte geben Sie die gewünschte Ausschüttung vom Gewinn in Prozenten ein, die Sie ausschütten wollen. Bitte geben Sie nur Zahlen ein (kein Prozentzeichen).");
                 Console.WriteLine();
 
                 Console.Write("Dividende: ");
                 text = Console.ReadLine();
-                if(Convert.ToInt32(test) > 95)
+                test = TestInt(text);
+                if(test == true)
+                {
+                    zahl = Convert.ToInt32(text);
+                }
+                
+                if (zahl > 95 && test == true)
                 {
                     Console.WriteLine("Sie können nicht mehr 95% des Gewinnes ausschütten, da Sie noch die gesetzlichen Reserven bezahlen müssen");
                     Console.WriteLine();
 
                     test = false;
-                }else if(Convert.ToInt32(test) < 0)
+                    testF = false;
+
+                }else if(zahl < 0 && test == true)
                 {
-                    Console.WriteLine("Sie können nicht einen Minus Prozensatz eingeben, da Sie entweder Dividen auszahlen oder nicht.");
+                    Console.WriteLine("Sie können nicht einen Minus Prozentsatz eingeben, da Sie entweder Dividende auszahlen oder nicht.");
+                    Console.WriteLine();
+
+                    test = false;
+                    testF = false;
+                }
+
+                if (test == false && testF == true)
+                {
+                    Console.WriteLine("Was sie eingegebn haben, war keine Zahl, bitte geben Sie eine Zahl ein.");
                     Console.WriteLine();
 
                     test = false;
                 }
-                test = TestInt(text);
-                if (test == false)
+                else if(test == true)
                 {
-                    Console.WriteLine("Was sie eingegebn haben war keine Zahl, bitte geben Sie eine Zahl ein.");
-                    Console.WriteLine();
-
-                    test = false;
-                }
-                else
-                {
-                    divide = Convert.ToInt32(text);
+                    divide = zahl;
                     test = true;
                 }
             } while (test == false);
@@ -239,19 +270,19 @@ namespace Gewinnverteilung
             double divAk = berechnung.BeitragAktie();
             double divPa = berechnung.BeitragPati();
 
-            Console.WriteLine($"Gesamte Dividenausschüttung: " + dividen +"CHF");
+            Console.WriteLine($"Gesamte Dividende-Ausschüttung: " + dividen +"CHF");
             Console.WriteLine();
-            Console.WriteLine("Dieser Beitrag zeigt die gesammte Ausschütung von den Dividen, die das Unternehmen auszahlen will dieses Jahr, auf in Franken.");
+            Console.WriteLine("Dieser Beitrag zeigt der gesamte Ausschüttung von den Dividende, die das Unternehmen auszahlen will, dieses Jahr, auf in Franken.");
             Console.WriteLine();
             Console.WriteLine($"Dieser Betrag ist, wie angegeben " + divide +"%");
             Console.WriteLine();
-            Console.WriteLine($"Dividenausschüttung gegenüber Aktionären: " + divAk + "CHF"); 
+            Console.WriteLine($"Dividende-Ausschüttung gegenüber Aktionären: " + divAk + "CHF"); 
             Console.WriteLine();
-            Console.WriteLine("Dieser Beitrag zeigt die Ausschütung der Dividen gegenüber den Aktionären, die das Unternehmen auszahlen will dieses Jahr, auf in Franken.");
+            Console.WriteLine("Dieser Beitrag zeigt die Ausschüttung der Dividende gegenüber den Aktionären, die das Unternehmen auszahlen will, dieses Jahr, auf in Franken.");
             Console.WriteLine();
-            Console.WriteLine($"Dividenausschüttung gegenüber Partizipationsinhabern: " + divPa + "CHF");
+            Console.WriteLine($"Dividende-Ausschüttung gegenüber Partizipationsinhabern: " + divPa + "CHF");
             Console.WriteLine();
-            Console.WriteLine("Dieser Beitrag zeigt die Ausschütung der Dividen gegenüber den Partizipationsinhaber, die das Unternehmen auszahlen will dieses Jahr, auf in Franken.");
+            Console.WriteLine("Dieser Beitrag zeigt die Ausschüttung der Dividende gegenüber den Partizipationsinhaber, die das Unternehmen auszahlen will, dieses Jahr, auf in Franken.");
             Console.WriteLine();
         }
 
@@ -262,13 +293,15 @@ namespace Gewinnverteilung
 
             Console.WriteLine($"Das ist der Vortrag für das nächste Jahr: " +_vortrag + "CHF");
             Console.WriteLine();
-            if(_vortrag > 0)
+            if(_vortrag < 0)
             {
                 Console.WriteLine("Das ist der Verlust, der das Unternehmen mit ins nächste Geschäftsjahr, nach allen Abzügen, nehmen muss.");
+                Console.WriteLine();
             }
             else
             {
-                Console.WriteLine("Das ist der Gewinn, der das Unternehmen nach allen Abszügen ins nächste Jahr mitnimmt.");
+                Console.WriteLine("Das ist der Gewinn, der das Unternehmen nach allen Abzügen ins nächste Jahr mitnimmt.");
+                Console.WriteLine();
             }
 
         }
