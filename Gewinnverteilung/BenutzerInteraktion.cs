@@ -24,6 +24,7 @@ namespace Gewinnverteilung
             bool test = true;
             do
             {
+                Console.WriteLine();
                 Console.WriteLine("Bitte geben Sie ihren Jahresgewinn in Franken ein. Bitte geben Sie nur Zahlen ein.");
                 Console.Write("Gewinn: ");
                 text = Console.ReadLine();
@@ -181,6 +182,7 @@ namespace Gewinnverteilung
 
                 Console.Write("Dividende: ");
                 text = Console.ReadLine();
+                Console.WriteLine();
                 test = TestInt(text);
                 if(test == true)
                 {
@@ -233,7 +235,8 @@ namespace Gewinnverteilung
         public void AusgabeReserven(Berechnung berechnung)
         {
             _berechnung = berechnung;
-            if(gewinn < 0)
+            Console.ForegroundColor = ConsoleColor.Red;
+            if (gewinn < 0)
             {
                 Console.WriteLine("Es liegt ein Verlust vor. Somit ist kein Beitrag fällig. Es ist nur ein Beitrag bei einem Verlust fällig");
                 Console.WriteLine();
@@ -261,6 +264,7 @@ namespace Gewinnverteilung
                     Console.WriteLine("Das sind 5% von dem Gewinn und so viel müssen in die gesetzlichen Reserven eingezahlt werden, nach Art. 672 OR.");
                 }
             }
+            Console.ResetColor();
 
         }
 
@@ -269,7 +273,9 @@ namespace Gewinnverteilung
             double dividen = berechnung.BeitragDividende();
             double divAk = berechnung.BeitragAktie();
             double divPa = berechnung.BeitragPati();
+            Console.ForegroundColor = ConsoleColor.Blue;
 
+            Console.WriteLine();
             Console.WriteLine($"Gesamte Dividende-Ausschüttung: " + dividen +"CHF");
             Console.WriteLine();
             Console.WriteLine("Dieser Beitrag zeigt der gesamte Ausschüttung von den Dividende, die das Unternehmen auszahlen will, dieses Jahr, auf in Franken.");
@@ -284,12 +290,15 @@ namespace Gewinnverteilung
             Console.WriteLine();
             Console.WriteLine("Dieser Beitrag zeigt die Ausschüttung der Dividende gegenüber den Partizipationsinhaber, die das Unternehmen auszahlen will, dieses Jahr, auf in Franken.");
             Console.WriteLine();
+            Console.ResetColor();
         }
 
         public void AusgabeVortrag(Berechnung berechnung)
         {
             int _vortrag;
             _vortrag = berechnung.VortragPos();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+
 
             Console.WriteLine($"Das ist der Vortrag für das nächste Jahr: " +_vortrag + "CHF");
             Console.WriteLine();
@@ -303,7 +312,7 @@ namespace Gewinnverteilung
                 Console.WriteLine("Das ist der Gewinn, der das Unternehmen nach allen Abzügen ins nächste Jahr mitnimmt.");
                 Console.WriteLine();
             }
-
+            Console.ResetColor();
         }
 
         public bool Wiederholung()
