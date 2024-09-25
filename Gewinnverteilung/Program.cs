@@ -1,3 +1,4 @@
+// Version: 1.0
 using Gewinnverteilung;
 
 bool wiederholung;
